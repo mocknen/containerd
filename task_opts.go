@@ -92,6 +92,31 @@ func WithCheckpointName(name string) CheckpointTaskOpts {
 	}
 }
 
+func WithCheckpointExit() CheckpointTaskOpts {
+	return func(r *CheckpointTaskInfo) error {
+		if CheckRuntime(r.Runtime(), "io.containerd.runc") {
+			if r.Options == nil {
+				r.Options = &options.CheckpointOptions{}
+			}
+			opts, ok := r.Options.(*options.CheckpointOptions)
+			if !ok {
+				return errors.New("invalid v2 shim checkpoint options format")
+			}
+			opts.Exit = true
+		} else {
+			if r.Options == nil {
+				r.Options = &runctypes.CheckpointOptions{}
+			}
+			opts, ok := r.Options.(*runctypes.CheckpointOptions)
+			if !ok {
+				return errors.New("invalid v1 shim checkpoint options format")
+			}
+			opts.Exit = true
+		}
+		return nil
+	}
+}
+
 // WithCheckpointImagePath sets image path for checkpoint option
 func WithCheckpointImagePath(path string) CheckpointTaskOpts {
 	return func(r *CheckpointTaskInfo) error {

@@ -74,4 +74,5 @@ replace (
 	github.com/urfave/cli => github.com/urfave/cli v1.22.1
 	google.golang.org/genproto => google.golang.org/genproto v0.0.0-20200224152610-e50cd9704f63
 	google.golang.org/grpc => google.golang.org/grpc v1.27.1
+	k8s.io/cri-api => github.com/mocknen/cri-api v0.20.5-rc.0-cr1
 )
